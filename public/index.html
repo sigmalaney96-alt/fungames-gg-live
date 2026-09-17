@@ -1,13 +1,31 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-<script src="/uv/uv.bundle.js"></script>
-<script src="/uv/uv.config.js"></script>
-<script>
-if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("/uv/sw.js", { scope: __uv$config.prefix }));
-</script>
-<link rel="stylesheet" href="example.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FunGames Live</title>
+  <link rel="stylesheet" href="example.css">
 </head>
-<body><iframe id="iframeWindow" class="iframeWindow"></iframe></body>
-<script src="example.js"></script>
+<body>
+  <main class="shell">
+    <header><h1>FunGames Live</h1><p>Open a game and keep your rounds on schedule.</p></header>
+    <section class="panel" aria-labelledby="round-title">
+      <div class="section-heading"><h2 id="round-title">Round system</h2><span id="roundStatus" class="status">Ready</span></div>
+      <div class="round-grid">
+        <label>Round length (seconds)<input id="duration" type="number" min="5" max="3600" value="60"></label>
+        <div class="timer" id="timer" aria-live="polite">01:00</div>
+        <div class="controls"><button id="startRound">Start round</button><button id="pauseRound" class="secondary">Pause</button><button id="resetRound" class="secondary">Reset</button></div>
+      </div>
+      <p>Round <strong id="roundNumber">1</strong> · Completed <strong id="completed">0</strong></p>
+    </section>
+    <section class="panel" aria-labelledby="open-title">
+      <h2 id="open-title">Open a web page</h2>
+      <form id="openForm"><label for="url">URL or search term</label><div class="url-row"><input id="url" name="url" type="text" placeholder="https://example.com or a search term" autocomplete="url" required><button type="submit">Open</button></div></form>
+      <p id="message" class="message" role="status">The page will appear below when it allows embedding. Use “Open in new tab” for sites that block iframes.</p>
+      <div class="viewer-actions"><a id="newTab" class="button secondary" target="_blank" rel="noopener noreferrer" hidden>Open in new tab</a></div>
+      <iframe id="pageFrame" title="Web page viewer" loading="lazy" referrerpolicy="no-referrer"></iframe>
+    </section>
+  </main>
+  <script src="example.js"></script>
+</body>
 </html>
