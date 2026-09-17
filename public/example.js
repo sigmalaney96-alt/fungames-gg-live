@@ -8,11 +8,9 @@ function getRouteUrl() {
     if (!value) return null;
 
     if (!/^https?:\/\//i.test(value)) {
-        if (!value.includes(".")) {
-            value = "https://www.google.com/search?q=" + encodeURIComponent(value);
-        } else {
-            value = "https://" + value;
-        }
+        value = value.includes(".")
+            ? `https://${value}`
+            : `https://www.google.com/search?q=${encodeURIComponent(value)}`;
     }
     return value;
 }
@@ -21,18 +19,14 @@ function openRoute() {
     const url = getRouteUrl();
     if (!url) return;
 
-    // Use UV when its bundle is available. The direct URL fallback keeps ?route
-    // working with sites that do not require proxying and avoids a blank iframe
-    // when an incomplete UV asset is deployed.
-    try {
-        if (window.__uv$config && typeof window.__uv$config.encodeUrl === "function") {
-            iframe.src = window.__uv$config.prefix + window.__uv$config.encodeUrl(url);
-            return;
-        }
-    } catch (error) {
-        console.warn("UV route failed; opening the direct route instead.", error);
+    if (!window.__uv$config || typeof window.__uv$config.encodeUrl !== "function") {
+        console.error("Ultraviolet did not load; check the generated /uv assets.");
+        return;
     }
-    iframe.src = url;
+
+    // The service worker handles this URL. Do not use the direct URL fallback:
+    // that bypasses UV and most sites reject it with X-Frame-Options/CSP.
+    iframe.src = window.__uv$config.prefix + window.__uv$config.encodeUrl(url);
 }
 
 window.addEventListener("load", openRoute);

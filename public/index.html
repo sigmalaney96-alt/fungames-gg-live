@@ -4,10 +4,18 @@
 <script src="/uv/uv.bundle.js"></script>
 <script src="/uv/uv.config.js"></script>
 <script>
-if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("/uv/sw.js", { scope: __uv$config.prefix }));
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", async () => {
+    try {
+      await navigator.serviceWorker.register("/uv/sw.js", { scope: __uv$config.prefix });
+    } catch (error) {
+      console.error("Ultraviolet service worker registration failed", error);
+    }
+  });
+}
 </script>
 <link rel="stylesheet" href="example.css">
 </head>
-<body><iframe id="iframeWindow" class="iframeWindow"></iframe></body>
+<body><iframe id="iframeWindow" class="iframeWindow" title="Web page viewer"></iframe></body>
 <script src="example.js"></script>
 </html>
