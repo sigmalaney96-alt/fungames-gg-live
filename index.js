@@ -39,7 +39,7 @@ app.get('/index', (req, res) => {
     res.sendFile(path.join(process.cwd(), '/public/index.html'));
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 server.on('listening', () => {
     const address = server.address();
     console.log("Listening on:");
@@ -47,7 +47,7 @@ server.on('listening', () => {
     console.log(`\thttp://${hostname()}:${address.port}`);
 })
 
-server.listen({ port: PORT, host: '0.0.0.0' })
+server.listen({ port: PORT, })
 
 process.on("SIGINT", shutdown);
 process.on("SIGTERM", shutdown);

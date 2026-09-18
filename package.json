@@ -9,13 +9,8 @@
   "keywords": ["proxy", "tomp", "tomphttp"],
   "license": "AGPL-3.0",
   "engines": { "node": ">=18.0.0" },
-  "scripts": {
-    "build": "node scripts/install-ultraviolet.js",
-    "postinstall": "node scripts/install-ultraviolet.js",
-    "start": "node index.js"
-  },
+  "scripts": { "build": "npm install --global @tomphttp/bare-server-node", "start": "npx bare-server-node" },
   "dependencies": {
-    "@titaniumnetwork-dev/ultraviolet": "^3.2.10",
     "@tomphttp/bare-client": "^2.2.0-alpha",
     "@tomphttp/bare-server-node": "2.0.3",
     "cors": "^2.8.5",
